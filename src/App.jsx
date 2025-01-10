@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import Note from "./components/Note";
-import axios from "axios";
+import notesService from "./services/notes.service";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -11,7 +11,8 @@ const App = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://localhost:3001/notes").then((res) => {
+
+    notesService.getAll().then((res) => {
       setLoading(false);
       setNotes(res.data);
     });
@@ -26,7 +27,7 @@ const App = () => {
       content: newNote,
     };
 
-    axios.post("http://localhost:3001/notes", newNoteObject).then((res) => {
+    notesService.create(newNoteObject).then((res) => {
       setNotes(notes.concat(res.data));
       setNewNote("");
     });
@@ -39,7 +40,7 @@ const App = () => {
       important: !note.important,
     };
 
-    axios.put(`http://localhost:3001/notes/${id}`, changedNote).then((res) => {
+    notesService.update(id, changedNote).then((res) => {
       setNotes(notes.map((n) => (n.id === id ? res.data : n)));
     });
   };
