@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Note from "./components/Note";
 
 const notes = [
@@ -19,9 +20,26 @@ const notes = [
 ];
 
 const App = () => {
+  const [newNote, setNewNote] = useState("");
+
+  const addNote = (e) => {
+    e.preventDefault();
+    setNewNote("");
+  };
+
   return (
     <div>
       <h1>Notebook</h1>
+      <div>
+        <form onSubmit={addNote}>
+          <input
+            value={newNote}
+            onChange={(e) => setNewNote(e.target.value)}
+            placeholder="Enter a note"
+          />
+          <button type="submit">Add note</button>
+        </form>
+      </div>
       <ul>
         {notes.map((note) => (
           <Note key={note.id} note={note} />
