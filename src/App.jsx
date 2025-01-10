@@ -4,12 +4,17 @@ import Note from "./components/Note";
 import axios from "axios";
 
 const App = () => {
+  const [loading, setLoading] = useState(false);
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/notes").then((res) => setNotes(res.data));
+    setLoading(true);
+    axios.get("http://localhost:3001/notes").then((res) => {
+      setLoading(false);
+      setNotes(res.data);
+    });
   }, []);
 
   const addNote = (e) => {
@@ -60,15 +65,19 @@ const App = () => {
           <button type="submit">Add note</button>
         </form>
       </div>
-      <ul>
-        {notesToShow.map((note) => (
-          <Note
-            key={note.id}
-            note={note}
-            toggleImportance={() => toggleImportanceOf(note.id)}
-          />
-        ))}
-      </ul>
+      {loading ? (
+        <p>Loading notes...</p>
+      ) : (
+        <ul>
+          {notesToShow.map((note) => (
+            <Note
+              key={note.id}
+              note={note}
+              toggleImportance={() => toggleImportanceOf(note.id)}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
