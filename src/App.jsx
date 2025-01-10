@@ -1,27 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Note from "./components/Note";
-
-const placeholder = [
-  {
-    id: "1",
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: "2",
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: "3",
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
+import axios from "axios";
 
 const App = () => {
-  const [notes, setNotes] = useState(placeholder);
+  const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("");
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/notes").then((res) => setNotes(res.data));
+  }, []);
 
   const addNote = (e) => {
     e.preventDefault();
