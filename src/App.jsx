@@ -12,9 +12,9 @@ const App = () => {
   useEffect(() => {
     setLoading(true);
 
-    notesService.getAll().then((res) => {
+    notesService.getAll().then((allNotes) => {
       setLoading(false);
-      setNotes(res.data);
+      setNotes(allNotes);
     });
   }, []);
 
@@ -27,8 +27,8 @@ const App = () => {
       content: newNote,
     };
 
-    notesService.create(newNoteObject).then((res) => {
-      setNotes(notes.concat(res.data));
+    notesService.create(newNoteObject).then((returnedNote) => {
+      setNotes(notes.concat(returnedNote));
       setNewNote("");
     });
   };
@@ -40,8 +40,8 @@ const App = () => {
       important: !note.important,
     };
 
-    notesService.update(id, changedNote).then((res) => {
-      setNotes(notes.map((n) => (n.id === id ? res.data : n)));
+    notesService.update(id, changedNote).then((returnedNote) => {
+      setNotes(notes.map((n) => (n.id === id ? returnedNote : n)));
     });
   };
 
