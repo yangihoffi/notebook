@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import Note from "./components/Note";
 import axios from "axios";
@@ -12,7 +13,17 @@ const App = () => {
 
   const addNote = (e) => {
     e.preventDefault();
-    setNewNote("");
+
+    const newNoteObject = {
+      id: uuidv4(),
+      important: Math.random() < 0.5,
+      content: newNote,
+    };
+
+    axios.post("http://localhost:3001/notes", newNoteObject).then((res) => {
+      setNotes(notes.concat(res.data));
+      setNewNote("");
+    });
   };
 
   return (
