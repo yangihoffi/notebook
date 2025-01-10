@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Note from "./components/Note";
 
-const notes = [
+const placeholder = [
   {
     id: "1",
     content: "HTML is easy",
@@ -20,6 +20,7 @@ const notes = [
 ];
 
 const App = () => {
+  const [notes, setNotes] = useState(placeholder);
   const [newNote, setNewNote] = useState("");
 
   const addNote = (e) => {
