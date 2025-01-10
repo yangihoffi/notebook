@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import Note from "./components/Note";
+import Notification from "./components/Notification";
 import notesService from "./services/notes.service";
 
 const App = () => {
@@ -8,6 +9,7 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -40,9 +42,18 @@ const App = () => {
       important: !note.important,
     };
 
-    notesService.update(id, changedNote).then((returnedNote) => {
-      setNotes(notes.map((n) => (n.id === id ? returnedNote : n)));
-    });
+    notesService
+      .update(id, changedNote)
+      .then((returnedNote) => {
+        setNotes(notes.map((n) => (n.id === id ? returnedNote : n)));
+      })
+      .catch((error) => {
+        setErrorMessage("A problem has occurred...");
+        console.log(error);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 2000);
+      });
   };
 
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
@@ -50,6 +61,7 @@ const App = () => {
   return (
     <div>
       <h1>Notebook</h1>
+      <Notification message={"This is an error."} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           Show {showAll ? "important" : "all"}
