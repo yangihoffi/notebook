@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import Note from "./components/Note";
 import Notification from "./components/Notification";
@@ -24,7 +23,6 @@ const App = () => {
     e.preventDefault();
 
     const newNoteObject = {
-      id: uuidv4(),
       important: Math.random() < 0.5,
       content: newNote,
     };
