@@ -61,7 +61,7 @@ const App = () => {
   return (
     <div>
       <h1>Notebook</h1>
-      <Notification message={"This is an error."} />
+      <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           Show {showAll ? "important" : "all"}
