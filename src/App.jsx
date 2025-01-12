@@ -10,14 +10,14 @@ const App = () => {
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  useEffect(() => {
+  const getAllNotes = () => {
     setLoading(true);
 
     notesService.getAll().then((allNotes) => {
-      setLoading(false);
       setNotes(allNotes);
+      setLoading(false);
     });
-  }, []);
+  };
 
   const addNote = (e) => {
     e.preventDefault();
@@ -46,8 +46,8 @@ const App = () => {
         setNotes(notes.map((n) => (n.id === id ? returnedNote : n)));
       })
       .catch((error) => {
-        setErrorMessage("A problem has occurred...");
         console.log(error);
+        setErrorMessage("A problem has occurred...");
         setTimeout(() => {
           setErrorMessage(null);
         }, 2000);
@@ -55,6 +55,8 @@ const App = () => {
   };
 
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
+
+  useEffect(getAllNotes, []);
 
   return (
     <div>
