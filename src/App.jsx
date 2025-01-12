@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import Note from "./components/Note";
-import Notification from "./components/Notification";
 import notesService from "./services/notes.service";
+import Notification from "./components/Notification";
+import NoteForm from "./components/NoteForm";
+import NotesList from "./components/NotesList";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -85,32 +86,19 @@ const App = () => {
         <button onClick={() => setShowAll(!showAll)}>
           Show {showAll ? "important" : "all"}
         </button>
-        <br />
       </div>
-      <div>
-        <form onSubmit={addNote}>
-          <input
-            value={newNote}
-            onChange={(e) => setNewNote(e.target.value)}
-            placeholder="Enter a note"
-          />
-          <button type="submit">Add note</button>
-        </form>
-      </div>
-      {loading ? (
-        <p>Loading notes...</p>
-      ) : (
-        <ul>
-          {notesToShow.map((note) => (
-            <Note
-              key={note.id}
-              note={note}
-              toggleImportance={() => toggleImportanceOf(note.id)}
-              deleteNote={() => deleteNote(note.id)}
-            />
-          ))}
-        </ul>
-      )}
+      <br />
+      <NoteForm
+        addNote={addNote}
+        newNote={newNote}
+        setNewNote={(e) => setNewNote(e.target.value)}
+      />
+      <NotesList
+        loading={loading}
+        notesToShow={notesToShow}
+        toggleImportance={toggleImportanceOf}
+        deleteNote={deleteNote}
+      />
     </div>
   );
 };
