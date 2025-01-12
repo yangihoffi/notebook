@@ -54,6 +54,25 @@ const App = () => {
       });
   };
 
+  const deleteNote = (id) => {
+    const foundNote = notes.find((note) => note.id === id);
+
+    if (foundNote) {
+      console.log("deleting note");
+
+      notesService
+        .remove(id)
+        .then((deletedNote) => {
+          setNotes(notes.filter((note) => note.id !== deletedNote.id));
+        })
+        .then((error) => {
+          console.log(error);
+        });
+    } else {
+      console.log("can't delete note");
+    }
+  };
+
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   useEffect(getAllNotes, []);
@@ -87,6 +106,7 @@ const App = () => {
               key={note.id}
               note={note}
               toggleImportance={() => toggleImportanceOf(note.id)}
+              deleteNote={() => deleteNote(note.id)}
             />
           ))}
         </ul>
