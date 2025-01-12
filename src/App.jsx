@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./style.css";
 import notesService from "./services/notes.service";
 import Notification from "./components/Notification";
 import NoteForm from "./components/NoteForm";
