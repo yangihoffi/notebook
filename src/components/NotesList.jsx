@@ -1,6 +1,10 @@
 import Note from "./Note";
 
 const NotesList = ({ loading, notesToShow, toggleImportance, deleteNote }) => {
+  if (notesToShow.length === 0) {
+    return <p>No notes to show</p>;
+  }
+
   return (
     <div>
       {loading ? (

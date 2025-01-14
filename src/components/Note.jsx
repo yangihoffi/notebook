@@ -2,8 +2,8 @@ const Note = ({ note, toggleImportance, deleteNote }) => {
   return (
     <li>
       <button onClick={deleteNote}>Delete</button>{" "}
-      <button onClick={toggleImportance}>Toggle</button>{" "}
-      {note.important ? <b>{note.content}</b> : <>{note.content}</>}
+      <button onClick={toggleImportance}>Toggle Important</button>{" "}
+      {note.content} {note.important ? <b>(IMPORTANT!)</b> : null}
     </li>
   );
 };
